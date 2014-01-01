@@ -19,4 +19,19 @@ __Full__ - Configures new server and installs LEMP stack
 You should read these scripts before running them so you know what they're
 doing. Changes may be necessary to meet your needs.
 
-Both scripts should be run as root on a fresh Ubuntu 12.04 installation.
+Both scripts should be run as __root__ on a fresh __Ubuntu 12.04__ installation.
+
+#### Core - Installs and configures LEMP servers:
+
+```
+wget https://raw.github.com/jbradach/quick-lemp/master/setup-core-lemp-ubuntu-precise.sh
+chmod +x setup-core-lemp-ubuntu-precise.sh
+./setup-core-lemp-ubuntu-precise.sh
+```
+
+#### Full - New server configuration in addition to LEMP deployment:
+```
+wget https://raw.github.com/jbradach/quick-lemp/master/setup-full-lemp-ubuntu-precise.sh
+chmod +x setup-full-lemp-ubuntu-precise.sh
+./setup-full-lemp-ubuntu-precise.sh
+```
