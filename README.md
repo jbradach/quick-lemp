@@ -11,7 +11,7 @@ __Core__ - Just installs the LEMP stack
   * MariaDB can easily be replaced with MySQL or PostgreSQL.
 
 __Full__ - Configures new server and installs LEMP stack
-  * Intended only for new Ubuntu 12.04 installations.
+  * Intended only for new Ubuntu 14.04 installations.
   * Adds new user with sudo access and disables remote root logins.
   * Changes sshd settings to enhance security.
   * Applies iptables rules to limit traffic to approved ports.
@@ -20,19 +20,19 @@ __Full__ - Configures new server and installs LEMP stack
 You should read these scripts before running them so you know what they're
 doing. Changes may be necessary to meet your needs.
 
-Both scripts should be run as __root__ on a fresh __Ubuntu 12.04__ installation.
+Both scripts should be run as __root__ on a fresh __Ubuntu 14.04__ installation.
 
 #### Core - Installs and configures LEMP servers:
 
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/setup-core-lemp-ubuntu-precise.sh
-chmod +x setup-core-lemp-ubuntu-precise.sh
-./setup-core-lemp-ubuntu-precise.sh
+wget https://raw.github.com/jbradach/quick-lemp/master/setup-core-lemp-ubuntu-trusty.sh
+chmod +x setup-core-lemp-ubuntu-trusty.sh
+./setup-core-lemp-ubuntu-trusty.sh
 ```
 
 #### Full - New server configuration in addition to LEMP deployment:
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/setup-full-lemp-ubuntu-precise.sh
-chmod +x setup-full-lemp-ubuntu-precise.sh
-./setup-full-lemp-ubuntu-precise.sh
+wget https://raw.github.com/jbradach/quick-lemp/master/setup-full-lemp-ubuntu-trusty.sh
+chmod +x setup-full-lemp-ubuntu-trusty.sh
+./setup-full-lemp-ubuntu-trusty.sh
 ```
