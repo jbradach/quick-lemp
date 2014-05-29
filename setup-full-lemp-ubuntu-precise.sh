@@ -119,12 +119,6 @@ def index():
     return "It works!"
 EOF
 
-# Permissions
-echo -e '\n[Adjusting Permissions]'
-chown -R $NEWUSER:www-data /srv/www/*
-chmod -R g+rw /srv/www/*
-sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
-
 # virtualenv
 echo -e '\n[virtualenv]'
 pip install virtualenv
@@ -132,6 +126,13 @@ cd /srv/www/flaskapp
 virtualenv venv
 source venv/bin/activate
 pip install flask
+deactivate
+
+# Permissions
+echo -e '\n[Adjusting Permissions]'
+chown -R $NEWUSER:www-data /srv/www/*
+chmod -R g+rw /srv/www/*
+sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
 
 # MariaDB
 echo -e '\n[MariaDB]'
