@@ -8,7 +8,8 @@ Deploys a sample Flask app to help get you started.
 __Core__ - Just installs the LEMP stack
   * Installs and configures Nginx, uWSGI in Emperor Mode, and MariaDB.
   * Includes virtualenv and pip.
-  * MariaDB can easily be replaced with MySQL or PostgreSQL.
+  * MariaDB 10.1 can easily be replaced with MySQL or PostgreSQL.
+  * Adds a PPA to install the latest stable version Nginx.
 
 __Full__ - Configures new server and installs LEMP stack
   * Intended only for new Ubuntu 14.04 installations.
