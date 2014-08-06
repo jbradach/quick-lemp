@@ -1,10 +1,10 @@
 ## quick-lemp
-Scripts to quickly install a LEMP stack with Nginx, uWSGI, and MariaDB 10.1 (drop-in replacement for MySQL) on Ubuntu. Full version also provides some initial server configuration for fresh Ubuntu installs.
+Scripts to quickly install a LEMP stack with a recent stable version of Nginx, uWSGI, and MariaDB 10.1 (drop-in replacement for MySQL) on Ubuntu. Full version also provides some initial server configuration for fresh Ubuntu installs.
 
-Deploys a sample Flask app to help get you started.
+Deploys a sample Flask app for testing.
 
 
-### Scripts
+### Script Versions
 __Core__ - Just installs the LEMP stack
   * Installs and configures Nginx, uWSGI in Emperor Mode, and MariaDB.
   * Includes virtualenv and pip.
@@ -12,6 +12,7 @@ __Core__ - Just installs the LEMP stack
   * Adds a PPA to install the latest stable version Nginx.
 
 __Full__ - Configures new server and installs LEMP stack
+  * Does everything in Core.
   * Intended only for new Ubuntu 14.04 installations.
   * Adds new user with sudo access and disables remote root logins.
   * Changes sshd settings to enhance security.
