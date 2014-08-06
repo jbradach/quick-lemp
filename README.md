@@ -26,14 +26,14 @@ Both scripts should be run as __root__ on a fresh __Ubuntu 14.04__ installation.
 #### Core - Installs and configures LEMP servers:
 
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/setup-core-lemp-ubuntu-trusty.sh
-chmod +x setup-core-lemp-ubuntu-trusty.sh
-./setup-core-lemp-ubuntu-trusty.sh
+wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-core.sh
+chmod +x quicklemp-trusty-core.sh
+./quicklemp-trusty-core.sh
 ```
 
 #### Full - New server configuration in addition to LEMP deployment:
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/setup-full-lemp-ubuntu-trusty.sh
-chmod +x setup-full-lemp-ubuntu-trusty.sh
-./setup-full-lemp-ubuntu-trusty.sh
+wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-full.sh
+chmod +x quicklemp-trusty-full.sh
+./quicklemp-trusty-full.sh
 ```
