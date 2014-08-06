@@ -7,6 +7,7 @@ Deploys a sample Flask app for testing.
 ### Script Versions
 __Core__ - Just installs the LEMP stack
   * Installs and configures Nginx, uWSGI in Emperor Mode, and MariaDB.
+  * Optional self-signed SSL cert configuration.
   * Includes virtualenv and pip.
   * MariaDB can easily be replaced with MySQL or PostgreSQL.
   * Adds a PPA to install the latest stable version Nginx.

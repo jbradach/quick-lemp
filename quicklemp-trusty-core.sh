@@ -3,7 +3,7 @@ echo '[LEMP Server Setup - Core]'
 echo 'Configured for Ubuntu 14.04.'
 echo 'Installs Nginx, MariaDB, and uWSGI and deploys a small Flask app.'
 echo
-read -p 'Do you want to continue? ' -n 1 -r
+read -p 'Do you want to continue? [y/N] ' -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   echo 'Exiting...'
@@ -30,20 +30,56 @@ apt-get -y install build-essential debconf-utils python-dev libpcre3-dev libssl-
 echo -e '\n[Nginx]'
 apt-get -y install nginx
 rm /etc/nginx/sites-enabled/default
-echo 'server {
-    listen 80;
-    server_name $hostname;
+echo 'upstream uwsgi_host {
+  server unix:/tmp/flaskapp.sock;
+}
 
-    location /static {
-        alias /srv/www/flaskapp/app/static;
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server ipv6only=on;
+
+  location ^~ /static/ {
+      alias /srv/www/flaskapp/app/static;
+  }
+
+  location / { try_files $uri @flaskapp; }
+  location @flaskapp {
+      include uwsgi_params;
+      uwsgi_pass uwsgi_host;
+  }
+}' > /etc/nginx/sites-available/flaskapp
+echo
+read -p 'Do you want to create a self-signed SSL cert and configure HTTPS? [y/N] ' -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/default_ssl.key -out /etc/nginx/default_ssl.crt
+  chmod 400 /etc/nginx/default_ssl.key
+
+  echo 'server {
+listen 443 default_server;
+listen [::]:443 default_server ipv6only=on;
+
+ssl on;
+ssl_certificate /etc/nginx/default_ssl.crt;
+ssl_certificate_key /etc/nginx/default_ssl.key;
+
+ssl_session_timeout 5m;
+
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+ssl_prefer_server_ciphers on;
+
+location ^~ /static/ {
+    alias /srv/www/flaskapp/app/static;
+}
+
+location / { try_files $uri @flaskapp; }
+location @flaskapp {
+    include uwsgi_params;
+    uwsgi_pass uwsgi_host;
     }
-
-    location / { try_files $uri @flaskapp; }
-    location @flaskapp {
-        include uwsgi_params;
-        uwsgi_pass unix:/tmp/flaskapp.sock;
-        }
-    }' > /etc/nginx/sites-available/flaskapp
+}' >> /etc/nginx/sites-available/flaskapp
+fi
 mkdir -p /srv/www/flaskapp/app/static
 mkdir -p /srv/www/flaskapp/app/templates
 ln -s /etc/nginx/sites-available/flaskapp /etc/nginx/sites-enabled/flaskapp
@@ -97,11 +133,14 @@ sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
 echo -e '\n[MariaDB]'
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q -y install mariadb-server
+echo
 echo 'The find_mysql_client error can be ignored.'
+echo
 mysql_secure_installation
 service ssh restart
 start uwsgi-emperor
 service nginx restart
+echo
 echo '[LEMP Setup Complete]'
 
 exit 0

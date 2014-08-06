@@ -3,7 +3,7 @@ echo '[LEMP Server Setup - Full]'
 echo 'Performs basic initial setup for fresh Ubuntu 14.04 installation.'
 echo 'Installs Nginx, MariaDB, and uWSGI and deploys a small Flask app.'
 echo
-read -p 'Do you want to continue? ' -n 1 -r
+read -p 'Do you want to continue? [y/N] ' -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   echo 'Exiting...'
@@ -16,20 +16,30 @@ fi
 
 # Users
 echo -e '\n[Create New User]'
-read -p 'Username: ' -r NEWUSER
-read -p 'Password: ' -r NEWPASS
-useradd $NEWUSER -s /bin/bash -m
-echo "$NEWUSER:$NEWPASS" | chpasswd
-usermod -a -G sudo $NEWUSER
-usermod -a -G www-data $NEWUSER
+read -p 'Username: ' -r newuser
+unset newpass;
+echo -n 'Password: '
+while IFS= read -r -s -n 1 newchar; do
+  if [[ -z $newchar ]]; then
+     echo
+     break
+  else
+     echo -n '*'
+     newpass+=$newchar
+  fi
+done
+useradd $newuser -s /bin/bash -m
+echo "$newuser:$newpass" | chpasswd
+usermod -a -G sudo $newuser
+usermod -a -G www-data $newuser
 
 # sshd
 echo -e '\n[Configuring sshd and iptables]'
-read -p 'New SSH Port: ' -i '22'-r NEWSSH
-sed -i.bak -e "s/^Port 22/Port $NEWSSH/" \
+read -p 'New SSH Port: ' -i '22'-r newssh
+sed -i.bak -e "s/^Port 22/Port $newssh/" \
   -e "s/^PermitRootLogin yes/PermitRootLogin no/" \
   -e "$ a\UseDNS no" \
-  -e "$ a\AllowUsers $NEWUSER" /etc/ssh/sshd_config
+  -e "$ a\AllowUsers $newuser" /etc/ssh/sshd_config
 
 # iptables
 echo "*filter
@@ -41,7 +51,7 @@ echo "*filter
 -A INPUT -p tcp --dport 443 -j ACCEPT
 -A INPUT -p tcp --dport 5000 -j ACCEPT
 -A INPUT -p tcp --dport 8000 -j ACCEPT
--A INPUT -p tcp -m state --state NEW --dport $NEWSSH -j ACCEPT
+-A INPUT -p tcp -m state --state NEW --dport $newssh -j ACCEPT
 -A INPUT -m limit --limit 5/min -j LOG --log-prefix \"iptables denied: \" --log-level 7
 -A INPUT -j DROP
 -A FORWARD -j DROP
@@ -72,20 +82,56 @@ apt-get -y install build-essential debconf-utils python-dev libpcre3-dev libssl-
 echo -e '\n[Nginx]'
 apt-get -y install nginx
 rm /etc/nginx/sites-enabled/default
-echo 'server {
-    listen 80;
-    server_name $hostname;
+echo 'upstream uwsgi_host {
+  server unix:/tmp/flaskapp.sock;
+}
 
-    location /static {
-        alias /srv/www/flaskapp/app/static;
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server ipv6only=on;
+
+  location ^~ /static/ {
+      alias /srv/www/flaskapp/app/static;
+  }
+
+  location / { try_files $uri @flaskapp; }
+  location @flaskapp {
+      include uwsgi_params;
+      uwsgi_pass uwsgi_host;
+  }
+}' > /etc/nginx/sites-available/flaskapp
+echo
+read -p 'Do you want to create a self-signed SSL cert and configure HTTPS? [y/N] ' -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/default_ssl.key -out /etc/nginx/default_ssl.crt
+  chmod 400 /etc/nginx/default_ssl.key
+
+  echo 'server {
+listen 443 default_server;
+listen [::]:443 default_server ipv6only=on;
+
+ssl on;
+ssl_certificate /etc/nginx/default_ssl.crt;
+ssl_certificate_key /etc/nginx/default_ssl.key;
+
+ssl_session_timeout 5m;
+
+ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+ssl_prefer_server_ciphers on;
+
+location ^~ /static/ {
+    alias /srv/www/flaskapp/app/static;
+}
+
+location / { try_files $uri @flaskapp; }
+location @flaskapp {
+    include uwsgi_params;
+    uwsgi_pass uwsgi_host;
     }
-
-    location / { try_files $uri @flaskapp; }
-    location @flaskapp {
-        include uwsgi_params;
-        uwsgi_pass unix:/tmp/flaskapp.sock;
-        }
-    }' > /etc/nginx/sites-available/flaskapp
+}' >> /etc/nginx/sites-available/flaskapp
+fi
 mkdir -p /srv/www/flaskapp/app/static
 mkdir -p /srv/www/flaskapp/app/templates
 ln -s /etc/nginx/sites-available/flaskapp /etc/nginx/sites-enabled/flaskapp
@@ -100,10 +146,10 @@ start on runlevel [2345]
 stop on runlevel [06]
 exec uwsgi --die-on-term --emperor /etc/uwsgi --logto /var/log/uwsgi/uwsgi.log' > /etc/init/uwsgi-emperor.conf
 echo '[uwsgi]
-chdir = /srv/www/flaskapp
-logto = /var/log/uwsgi/flaskapp.log
-virtualenv = /srv/www/flaskapp/venv
-socket = /tmp/flaskapp.sock
+chdir = /srv/www/%n
+logto = /var/log/uwsgi/%n.log
+virtualenv = /srv/www/%n/venv
+socket = /tmp/%n.sock
 uid = www-data
 gid = www-data
 master = true
@@ -131,7 +177,7 @@ deactivate
 
 # Permissions
 echo -e '\n[Adjusting Permissions]'
-chown -R $NEWUSER:www-data /srv/www/*
+chown -R $newuser:www-data /srv/www/*
 chmod -R g+rw /srv/www/*
 sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
 
@@ -139,11 +185,15 @@ sh -c 'find /srv/www/* -type d -print0 | sudo xargs -0 chmod g+s'
 echo -e '\n[MariaDB]'
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q -y install mariadb-server
+echo
 echo 'The find_mysql_client error can be ignored.'
+echo
 mysql_secure_installation
 service ssh restart
 start uwsgi-emperor
 service nginx restart
+echo
 echo '[LEMP Setup Complete]'
 echo 'Open a new session to confirm your settings before logging out.'
+
 exit 0
