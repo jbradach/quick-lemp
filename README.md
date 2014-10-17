@@ -1,5 +1,5 @@
 ## quick-lemp
-Scripts to quickly install a LEMP stack with a recent stable version of Nginx, uWSGI, and MariaDB 10.1 (drop-in replacement for MySQL) on Ubuntu. The full version also provides some initial server configuration for fresh Ubuntu installs.
+Scripts to quickly install a [LEMP Stack](https://lemp.io) with a recent stable version of Nginx, uWSGI, and MariaDB 10.1 (drop-in replacement for MySQL) on Ubuntu. The full version also provides some initial server configuration for fresh Ubuntu installs.
 
 Deploys a sample Flask app for testing.
 
