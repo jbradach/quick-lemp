@@ -1,41 +1,49 @@
 ## quick-lemp
-Scripts to quickly install a [LEMP Stack](https://lemp.io) with a recent stable version of Nginx, uWSGI, and MariaDB 10.1 (drop-in replacement for MySQL) on Ubuntu. The full version also provides some initial server configuration for fresh Ubuntu installs.
+Scripts to quickly install a [LEMP Stack](https://lemp.io) (like a LAMP stack but using Nginx instead of Apache) and perform basic configuration of a new Ubuntu server.
+
+Components include the a recent stable version of Nginx, uWSGI, and MariaDB 10.01 (drop-in replacement for MySQL).
 
 Deploys a sample Flask app for testing.
 
 
-### Script Versions
-__Core__ - Just installs the LEMP stack
+### Scripts
+__Setup__ - Basic setup for new Ubuntu server
+  * Intended only for new Ubuntu installations.
+  * Adds new user with sudo access and disables remote root logins.
+  * Changes sshd settings to enhance security.
+  * Uses UFW to apply iptables rules to limit traffic to approved ports.
+
+__Stack__ - Installs and configures LEMP stack
   * Installs and configures Nginx, uWSGI in Emperor Mode, and MariaDB.
-  * Optional self-signed SSL cert configuration.
   * Includes virtualenv and pip.
   * MariaDB can easily be replaced with MySQL or PostgreSQL.
   * Adds a PPA to install the latest stable version Nginx.
-
-__Full__ - Configures new server and installs LEMP stack
-  * Does everything in Core.
-  * Intended only for new Ubuntu 14.04 installations.
-  * Adds new user with sudo access and disables remote root logins.
-  * Changes sshd settings to enhance security.
-  * Applies iptables rules to limit traffic to approved ports.
+  * Supports IPv6.
+  * Optional self-signed SSL cert configuration.
 
 ### Quick Start
 You should read these scripts before running them so you know what they're
 doing. Changes may be necessary to meet your needs.
 
-Both scripts should be run as __root__ on a fresh __Ubuntu 14.04__ installation.
+__Setup__ should be run as __root__ on a fresh __Ubuntu__ installation. __Stack__ should be run on a server without any existing LEMP or LAMP components.
 
-#### Core - Installs and configures LEMP servers:
+If components are already installed, the core packages can be removed with:
+```
+apt-get purge apache2 nginx mysql mariadb uwsgi
+apt-get autoclean
+apt-get autoremove
+```
 
+#### Setup - Basic setup for new Ubuntu server:
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-core.sh
-chmod +x quicklemp-trusty-core.sh
-./quicklemp-trusty-core.sh
+wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-setup.sh
+chmod +x quicklemp-trusty-setup.sh
+./quicklemp-trusty-setup.sh
 ```
 
-#### Full - New server configuration in addition to LEMP deployment:
+#### Stack - Installs and configures LEMP stack:
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-full.sh
-chmod +x quicklemp-trusty-full.sh
-./quicklemp-trusty-full.sh
+wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-stack.sh
+chmod +x quicklemp-trusty-stack.sh
+./quicklemp-trusty-stack.sh
 ```
