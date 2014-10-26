@@ -1,7 +1,7 @@
 ## quick-lemp
 Scripts to quickly install a [LEMP Stack](https://lemp.io) (like a LAMP stack but using Nginx instead of Apache) and perform basic configuration of a new Ubuntu server.
 
-Components include the a recent stable version of Nginx, uWSGI, and MariaDB 10.01 (drop-in replacement for MySQL).
+Components include a recent stable version of Nginx, uWSGI, and MariaDB 10.01 (drop-in replacement for MySQL).
 
 Deploys a sample Flask app for testing.
 
@@ -36,14 +36,14 @@ apt-get autoremove
 
 #### Setup - Basic setup for new Ubuntu server:
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-setup.sh
+curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-setup.sh
 chmod +x quicklemp-trusty-setup.sh
 ./quicklemp-trusty-setup.sh
 ```
 
 #### Stack - Installs and configures LEMP stack:
 ```
-wget https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-stack.sh
+curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-stack.sh
 chmod +x quicklemp-trusty-stack.sh
 ./quicklemp-trusty-stack.sh
 ```
