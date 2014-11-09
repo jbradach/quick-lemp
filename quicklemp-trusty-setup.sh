@@ -50,6 +50,8 @@ ufw allow www
 ufw allow https
 ufw enable
 
+service ssh restart
+
 echo
 echo '[quick-lemp] Ubuntu 14.04 Setup Complete'
 echo 'Open a new session to confirm your settings before logging out.'
