@@ -140,7 +140,6 @@ echo
 echo 'The find_mysql_client error can be ignored.'
 echo
 mysql_secure_installation
-service ssh restart
 start uwsgi-emperor
 service nginx restart
 echo
