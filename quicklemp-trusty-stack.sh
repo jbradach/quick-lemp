@@ -83,8 +83,8 @@ $conf2
   }
 }" > /etc/nginx/sites-available/flasksample
 
-mkdir -p /srv/www/flaskapp/app/static
-mkdir -p /srv/www/flaskapp/app/templates
+mkdir -p /srv/www/flasksample/app/static
+mkdir -p /srv/www/flasksample/app/templates
 ln -s /etc/nginx/sites-available/flasksample /etc/nginx/sites-enabled/flasksample
 
 # uWSGI
