@@ -1,7 +1,7 @@
 ## quick-lemp
 Scripts to quickly install a [LEMP Stack](https://lemp.io) (like a LAMP stack but using Nginx instead of Apache) and perform basic configuration of a new Ubuntu server.
 
-Components include a recent stable version of Nginx (using HTML5 Boilerplate configuration), uWSGI, and MariaDB 10.01 (drop-in replacement for MySQL).
+Components include a recent stable version of Nginx (using HTML5 Boilerplate configuration), uWSGI, and MariaDB 10.0 (drop-in replacement for MySQL).
 
 Deploys a sample Flask app for testing.
 
