@@ -50,6 +50,7 @@ ufw allow www
 ufw allow https
 ufw enable
 
+ssh-keygen -A
 service ssh restart
 
 echo
