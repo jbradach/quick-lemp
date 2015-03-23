@@ -14,6 +14,12 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# Color Prompt
+echo -e '\n[Bash Settings for Color]'
+sed -i.bak -e 's/^#force_color/force_color/' \
+ -e 's/1;34m/1;35m/g' \
+ -e "\$aLS_COLORS=\$LS_COLORS:'di=0;35:' ; export LS_COLORS" /etc/skel/.bashrc
+
 # Users
 echo -e '\n[Create New User]'
 read -p 'Username: ' -r newuser
