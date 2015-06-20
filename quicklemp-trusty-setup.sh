@@ -113,7 +113,7 @@ ssh-keygen -A
 service ssh restart
 
 echo
-echo '[quick-lemp] Ubuntu Server Setup Complete'
+echo "${bold}[quick-lemp] Ubuntu Server Setup Complete${normal}"
 echo 'Open a new session to confirm your settings before logging out.'
 
 exit 0
