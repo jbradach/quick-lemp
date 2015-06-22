@@ -43,7 +43,6 @@ elif [[ ! "${rel}" =~ ("12.04"|"13.04"|"14.04"|"15.04") ]]; then #
   echo 'Exiting...'
   exit 1
 fi
-
 echo 'Checking permissions...'
 echo
 if [[ $EUID -ne 0 ]]; then
@@ -86,7 +85,7 @@ fi
 usermod -a -G sudo $newuser
 usermod -a -G www-data $newuser
 
-$newssh = 22
+newssh=22
 
 # sshd
 if [ -f /etc/ssh/sshd_config ]; then
