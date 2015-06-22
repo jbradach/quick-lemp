@@ -2,7 +2,7 @@
 #
 # [Quick LEMP Server Setup Script]
 #
-# GitHub:   https://github.com/jbradach/quick-lemp#
+# GitHub:   https://github.com/jbradach/quick-lemp
 # Author:   James Bradach
 # URL:      https://jamesbradach.com
 #
@@ -14,7 +14,7 @@ ${bold}[quick-lemp] Server Setup${normal}
 
 Configured and tested for Ubuntu 12.04, 13.04, 14.04, and 15.04.
 Performs very basic initial steps for a fresh Ubuntu installation.
-Github: https://github.com/jbradach/quick-lemp
+More info at ${bold}https://github.com/jbradach/quick-lemp${normal}
 
 !
 read -p "${bold}Do you want to continue?[y/N]${normal} " -n 1 -r
