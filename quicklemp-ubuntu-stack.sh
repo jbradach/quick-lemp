@@ -164,7 +164,7 @@ Description=uWSGI Emperor
 After=syslog.target
 
 [Service]
-ExecStart=/root/uwsgi/uwsgi --ini /etc/uwsgi/emperor.ini
+ExecStart=/usr/local/bin/uwsgi --ini /etc/uwsgi/emperor.ini
 Restart=always
 KillSignal=SIGQUIT
 Type=notify
@@ -179,7 +179,7 @@ else
 fi
 
 echo '[uwsgi]
-emperor = /etc/uwsgi/vassals' > /etc/uwsgi/emperor.ini
+emperor = /etc/uwsgi/vassal' > /etc/uwsgi/emperor.ini
 
 echo '[uwsgi]
 chdir = /srv/www/lempsample
