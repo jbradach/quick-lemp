@@ -145,7 +145,7 @@ echo '<?php phpinfo(); ?>' > /srv/www/lempsample/public/checkinfo.php
 # uWSGI
 echo -e '\n[uWSGI]'
 pip install uwsgi
-mkdir /etc/uwsgi
+mkdir -p /etc/uwsgi/vassal
 mkdir /var/log/uwsgi
 
 inituwsgi=$(ps -p1 | grep systemd >>/dev/null && echo systemd || echo upstart)
@@ -164,7 +164,7 @@ Description=uWSGI Emperor
 After=syslog.target
 
 [Service]
-ExecStart=/root/uwsgi/uwsgi --emperor /etc/uwsgi
+ExecStart=/root/uwsgi/uwsgi --ini /etc/uwsgi/emperor.ini
 Restart=always
 KillSignal=SIGQUIT
 Type=notify
@@ -179,6 +179,9 @@ else
 fi
 
 echo '[uwsgi]
+emperor = /etc/uwsgi/vassals' > /etc/uwsgi/emperor.ini
+
+echo '[uwsgi]
 chdir = /srv/www/lempsample
 logto = /var/log/uwsgi/lempsample.log
 virtualenv = /srv/www/lempsample/venv
@@ -188,7 +191,7 @@ gid = www-data
 master = true
 wsgi-file = wsgi.py
 callable = app
-vacuum = true' > /etc/uwsgi/lempsample.ini
+vacuum = true' > /etc/uwsgi/vassal/lempsample.ini
 tee -a /srv/www/lempsample/wsgi.py > /dev/null <<EOF
 from flask import Flask
 
@@ -227,7 +230,7 @@ case $inituwsgi in
             start uwsgi-emperor
             ;;
      systemd)
-            systemctl stop emperor.uwsgi.service
+            systemctl start emperor.uwsgi.service
             ;;
      *)
             echo 'uWSGI was not started.'
