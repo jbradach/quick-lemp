@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Quick LEMP by jbradach</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Quick LEMP</h1>
+        <h2>Lightweight scripts to quickly install a LEMP stack with Nginx, PHP5 (PHP-FPM), uWSGI, and MariaDB on Ubuntu and perform initial server configuration. Deploys a sample Flask app.</h2>
+        <a href="https://github.com/jbradach/quick-lemp" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2>
+<a id="quick-lemp" class="anchor" href="#quick-lemp" aria-hidden="true"><span class="octicon octicon-link"></span></a>quick-lemp</h2>
+
+<p>Two Scripts to quickly install a <a href="https://lemp.io">LEMP Stack</a> and perform basic configuration of a new Ubuntu 14.04 LTS (Trusty Tahr) server.</p>
+
+<p>Components include a recent stable version of Nginx (1.8.0) using configurations from the HTML 5 Boilerplate team, uWSGI, and MariaDB 10.0 (drop-in replacement for MySQL), PHP5, and Python.</p>
+
+<p>Deploys a sample Flask app and creates a PHP page for testing.</p>
+
+<h3>
+<a id="scripts" class="anchor" href="#scripts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scripts</h3>
+
+<p><strong>Setup</strong> - Basic setup for new Ubuntu server.</p>
+
+<ul>
+<li>Intended only for new Ubuntu installations.</li>
+<li>Adds new user with sudo access and disables remote root logins.</li>
+<li>Changes sshd settings to enhance security.</li>
+<li>Uses UFW to apply iptables rules to limit traffic to approved ports.</li>
+</ul>
+
+<p><strong>Stack</strong> - Installs and configures LEMP stack with support for PHP and Python applications.</p>
+
+<ul>
+<li>Installs and configures Nginx and MariaDB.</li>
+<li>Installs PHP-FPM for PHP5 and uWSGI in Emperor Mode for Python.</li>
+<li>Includes virtualenv and pip.</li>
+<li>MariaDB 10.0 can easily switched to 5.5 or substituted for PostgreSQL.</li>
+<li>Adds repositories for the latest stable versions of Nginx and MariaDB..</li>
+<li>Supports IPv6 by default .</li>
+<li>Optional self-signed SSL cert configuration.</li>
+</ul>
+
+<h3>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Start</h3>
+
+<p>You should read these scripts before running them so you know what they're
+doing. Changes may be necessary to meet your needs.</p>
+
+<p><strong>Setup</strong> should be run as <strong>root</strong> on a fresh <strong>Ubuntu</strong> installation. <strong>Stack</strong> should be run on a server without any existing LEMP or LAMP components.</p>
+
+<p>If components are already installed, the core packages can be removed with:</p>
+
+<pre><code>apt-get purge apache mysql apache2-mpm-prefork apache2-utils apache2.2-bin apache2.2-common libapache2-mod-php5 libapr1 libaprutil1 libdbd-mysql-perl libdbi-perl libnet-daemon-perl libplrpc-perl libpq5 mysql-client-5.5 mysql-common mysql-server mysql-server-5.5 php5-common php5-mysql
+apt-get autoclean
+apt-get autoremove
+</code></pre>
+
+<h4>
+<a id="setup---basic-setup-for-new-ubuntu-server" class="anchor" href="#setup---basic-setup-for-new-ubuntu-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup - Basic setup for new Ubuntu server:</h4>
+
+<pre><code>curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-setup.sh
+chmod +x quicklemp-trusty-setup.sh
+./quicklemp-trusty-setup.sh
+</code></pre>
+
+<h4>
+<a id="stack---installs-and-configures-lemp-stack" class="anchor" href="#stack---installs-and-configures-lemp-stack" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stack - Installs and configures LEMP stack:</h4>
+
+<pre><code>curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-stack.sh
+chmod +x quicklemp-trusty-stack.sh
+./quicklemp-trusty-stack.sh
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/jbradach/quick-lemp/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/jbradach/quick-lemp/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/jbradach/quick-lemp"></a> is maintained by <a href="https://github.com/jbradach">jbradach</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-41142048-12");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
