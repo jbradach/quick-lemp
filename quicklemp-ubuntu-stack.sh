@@ -148,18 +148,18 @@ pip install uwsgi
 mkdir /etc/uwsgi
 mkdir /var/log/uwsgi
 
+inituwsgi=$(ps -p1 | grep systemd >>/dev/null && echo systemd || echo upstart)
 # Upstart or systemd
-if [[ `/sbin/init --version` =~ upstart ]]; then
-  inituwsgi='upstart'
+if [[ "${inituwsgi}" == "upstart" ]]; then
+  #inituwsgi='upstart'
   echo 'Using upstart for uWSGI Emperor...'
   echo 'description "uWSGI Emperor"
   start on runlevel [2345]
   stop on runlevel [06]
   exec uwsgi --die-on-term --emperor /etc/uwsgi --logto /var/log/uwsgi/uwsgi.log' > /etc/init/uwsgi-emperor.conf
-elif [[ `systemctl` =~ -\.mount ]]; then
-  inituwsgi='systemd'
+elif [[ "${inituwsgi}" == "systemd" ]]; then
   echo 'Using systemd foruWSGI Emperor...'
-  echo'[Unit]
+  echo '[Unit]
 Description=uWSGI Emperor
 After=syslog.target
 
