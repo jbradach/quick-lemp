@@ -85,7 +85,7 @@ fi
 usermod -a -G sudo $newuser
 usermod -a -G www-data $newuser
 
-$newssh = 22
+newssh=22
 
 # sshd
 if [ -f /etc/ssh/sshd_config ]; then

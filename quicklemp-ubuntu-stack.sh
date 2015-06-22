@@ -63,7 +63,7 @@ apt-get -y upgrade
 
 # Depencies and pip
 echo -e '\n[Dependencies]'
-apt-get -y install build-essential debconf-utils python-dev libpcre3-dev libssl-dev python-pip
+apt-get -y install build-essential debconf-utils python-dev libpcre3-dev libssl-dev python-pip curl
 
 # Nginx
 echo -e '\n[Nginx]'
@@ -206,7 +206,7 @@ echo -e '\n[virtualenv]'
 pip install virtualenv
 cd /srv/www/lempsample
 virtualenv venv
-source venv/bin/activatse
+source venv/bin/activate
 pip install flask
 deactivate
 
