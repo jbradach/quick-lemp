@@ -230,6 +230,7 @@ case $inituwsgi in
             start uwsgi-emperor
             ;;
      systemd)
+            systemctl daemon-reload
             systemctl start emperor.uwsgi.service
             ;;
      *)
