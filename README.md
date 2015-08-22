@@ -1,14 +1,14 @@
-## quick-lemp
+quick-lemp [![Join the chat at https://gitter.im/jbradach/quick-lemp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jbradach/quick-lemp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+==========
 
-[![Join the chat at https://gitter.im/jbradach/quick-lemp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jbradach/quick-lemp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Scripts to quickly install a [LEMP Stack](https://lemp.io) and perform basic configuration of new Ubuntu 12.04, 13.04, 14.04, and 15.04 servers.
 
 Components include a recent stable version of Nginx (1.8.0) using configurations from the HTML 5 Boilerplate team, uWSGI, and MariaDB 10.0 (drop-in replacement for MySQL), PHP5, and Python.
 
 Deploys a sample Flask app and creates a PHP page for testing.
 
-
-### Scripts
+ Scripts
+--------
 __Setup__ - Basic setup for new Ubuntu server.
   * Intended only for new Ubuntu installations.
   * Adds new user with sudo access and disables remote root logins.
@@ -24,10 +24,11 @@ __Stack__ - Installs and configures LEMP stack with support for PHP and Python a
   * Supports IPv6 by default .
   * Optional self-signed SSL cert configuration.
 
-### Quick Start
-You should read these scripts before running them so you know what they're
-doing. Changes may be necessary to meet your needs. The generic Ubuntu files are 
-intended to be cmpatible with Ubuntu 12.04, 13.04, 14.04, and 15.04. 
+Quick Start
+----------------
+_You should read these scripts before running them so you know what they're
+doing._ Changes may be necessary to meet your needs. The generic Ubuntu files are 
+intended to be compatible with Ubuntu 12.04, 13.04, 14.04, and 15.04. 
 
 __Setup__ should be run as __root__ on a fresh __Ubuntu__ installation. __Stack__ should be run on a server without any existing LEMP or LAMP components.
 
@@ -41,22 +42,22 @@ apt-get autoclean
 apt-get autoremove
 ```
 
-#### Setup - Basic setup for new Ubuntu server:
-##### 12.04, 13.04, 14.04, and 15.04
+### Setup - Basic setup for new Ubuntu server:
+#### 12.04, 13.04, 14.04, and 15.04
 ```
 curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-ubuntu-setup.sh
 chmod +x quicklemp-ubuntu-setup.sh
 ./quicklemp-ubuntu-setup.sh
 ```
-##### 14.04 only
+#### 14.04 only
 ```
 curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-setup.sh
 chmod +x quicklemp-trusty-setup.sh
 ./quicklemp-trusty-setup.sh
 ```
 
-#### Stack - Installs and configures LEMP stack:
-##### 12.04, 13.04, 14.04, and 15.04
+### Stack - Installs and configures LEMP stack:
+#### 12.04, 13.04, 14.04, and 15.04
 ```
 curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-ubuntu-stack.sh
 chmod +x quicklemp-ubuntu-stack.sh
