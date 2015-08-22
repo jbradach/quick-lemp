@@ -1,4 +1,6 @@
 ## quick-lemp
+
+[![Join the chat at https://gitter.im/jbradach/quick-lemp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jbradach/quick-lemp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Scripts to quickly install a [LEMP Stack](https://lemp.io) and perform basic configuration of new Ubuntu 12.04, 13.04, 14.04, and 15.04 servers.
 
 Components include a recent stable version of Nginx (1.8.0) using configurations from the HTML 5 Boilerplate team, uWSGI, and MariaDB 10.0 (drop-in replacement for MySQL), PHP5, and Python.
