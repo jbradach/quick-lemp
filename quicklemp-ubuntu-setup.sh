@@ -103,8 +103,8 @@ fi
 apt-get install ufw
 ufw default deny incoming
 ufw default allow outgoing
-ufw allow $newssh/tcp
-ufw allow www
+ufw allow $newssh
+ufw allow http
 ufw allow https
 ufw enable
 
