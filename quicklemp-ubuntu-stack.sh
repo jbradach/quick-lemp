@@ -56,7 +56,7 @@ fi
 echo -e '\n[Package Updates]'
 apt-get install software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-add-apt-repository 'deb http://mirrors.syringanetworks.net/mariadb/repo/10.0/ubuntu trusty main'
+add-apt-repository "deb http://mirrors.syringanetworks.net/mariadb/repo/10.0/ubuntu $(lsb_release -sc) main"
 add-apt-repository ppa:nginx/stable
 apt-get update
 apt-get -y upgrade
