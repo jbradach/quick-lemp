@@ -28,7 +28,7 @@ if [ -z "$newuser" ]; then
 fi
 usermod -a -G www-pub $newuser
 
-Change the ownership of everything under /var/www to root:www-pub
+# Change the ownership of everything under /var/www to root:www-pub
 
 chown root:www-pub -R /srv/www
 chmod 2775 /srv/www
