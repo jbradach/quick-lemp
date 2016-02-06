@@ -49,12 +49,6 @@ curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-ubuntu-setu
 chmod +x quicklemp-ubuntu-setup.sh
 ./quicklemp-ubuntu-setup.sh
 ```
-#### 14.04 only
-```
-curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-setup.sh
-chmod +x quicklemp-trusty-setup.sh
-./quicklemp-trusty-setup.sh
-```
 
 ### Stack - Installs and configures LEMP stack:
 #### 12.04, 13.04, 14.04, and 15.04
@@ -62,10 +56,4 @@ chmod +x quicklemp-trusty-setup.sh
 curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-ubuntu-stack.sh
 chmod +x quicklemp-ubuntu-stack.sh
 ./quicklemp-ubuntu-stack.sh
-```
-##### 14.04 only
-```
-curl -LO https://raw.github.com/jbradach/quick-lemp/master/quicklemp-trusty-stack.sh
-chmod +x quicklemp-trusty-stack.sh
-./quicklemp-trusty-stack.sh
 ```

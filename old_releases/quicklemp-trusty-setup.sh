@@ -43,6 +43,7 @@ elif [[ ! "${rel}" =~ ("12.04"|"13.04"|"14.04"|"15.04") ]]; then #
   echo 'Exiting...'
   exit 1
 fi
+
 echo 'Checking permissions...'
 echo
 if [[ $EUID -ne 0 ]]; then
@@ -99,8 +100,6 @@ else
     echo "/etc/ssh/sshd_config does not exist, skipping ahead..."
 fi
 
-apt-get update
-apt-get upgrade -y
 # firewall
 apt-get install ufw
 ufw default deny incoming

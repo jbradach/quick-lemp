@@ -56,8 +56,9 @@ fi
 echo -e '\n[Package Updates]'
 apt-get install software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-add-apt-repository "deb http://mirrors.syringanetworks.net/mariadb/repo/10.0/ubuntu $(lsb_release -sc) main"
+add-apt-repository 'deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $(lsb_release -sc) main'
 add-apt-repository ppa:nginx/stable
+add-apt-repository ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
 
@@ -142,75 +143,82 @@ apt-get -y install php5-common php5-mysqlnd php5-curl php5-gd php5-cli php5-fpm 
 echo '<?php phpinfo(); ?>' > /srv/www/lempsample/public/checkinfo.php
 
 
-# uWSGI
-echo -e '\n[uWSGI]'
-pip install uwsgi
-mkdir -p /etc/uwsgi/vassal
-mkdir /var/log/uwsgi
+echo
+read -p 'Do you want to install uWSGI for Python appplications? [y/N] ' -n 1 -r
+echo
 
-inituwsgi=$(ps -p1 | grep systemd >>/dev/null && echo systemd || echo upstart)
-# Upstart or systemd
-if [[ "${inituwsgi}" == "upstart" ]]; then
-  #inituwsgi='upstart'
-  echo 'Using upstart for uWSGI Emperor...'
-  echo 'description "uWSGI Emperor"
-  start on runlevel [2345]
-  stop on runlevel [06]
-  exec uwsgi --die-on-term --emperor /etc/uwsgi --logto /var/log/uwsgi/uwsgi.log' > /etc/init/uwsgi-emperor.conf
-elif [[ "${inituwsgi}" == "systemd" ]]; then
-  echo 'Using systemd foruWSGI Emperor...'
-  echo '[Unit]
-Description=uWSGI Emperor
-After=syslog.target
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  # uWSGI
+  echo -e '\n[uWSGI]'
+  pip install uwsgi
+  mkdir -p /etc/uwsgi/vassal
+  mkdir /var/log/uwsgi
 
-[Service]
-ExecStart=/usr/local/bin/uwsgi --ini /etc/uwsgi/emperor.ini
-Restart=always
-KillSignal=SIGQUIT
-Type=notify
-StandardError=syslog
-NotifyAccess=all
+  inituwsgi=$(ps -p1 | grep systemd >>/dev/null && echo systemd || echo upstart)
+  # Upstart or systemd
+  if [[ "${inituwsgi}" == "upstart" ]]; then
+    #inituwsgi='upstart'
+    echo 'Using upstart for uWSGI Emperor...'
+    echo 'description "uWSGI Emperor"
+    start on runlevel [2345]
+    stop on runlevel [06]
+    exec uwsgi --die-on-term --emperor /etc/uwsgi --logto /var/log/uwsgi/uwsgi.log' > /etc/init/uwsgi-emperor.conf
+  elif [[ "${inituwsgi}" == "systemd" ]]; then
+    echo 'Using systemd foruWSGI Emperor...'
+    echo '[Unit]
+  Description=uWSGI Emperor
+  After=syslog.target
 
-[Install]
-WantedBy=multi-user.target' > /etc/systemd/system/emperor.uwsgi.service
-else
-  inituwsgi='none'
-  echo 'Cannot locate init system for uWSGI Emperor...'
+  [Service]
+  ExecStart=/usr/local/bin/uwsgi --ini /etc/uwsgi/emperor.ini
+  Restart=always
+  KillSignal=SIGQUIT
+  Type=notify
+  StandardError=syslog
+  NotifyAccess=all
+
+  [Install]
+  WantedBy=multi-user.target' > /etc/systemd/system/emperor.uwsgi.service
+  else
+    inituwsgi='none'
+    echo 'Cannot locate init system for uWSGI Emperor...'
+  fi
+
+  echo '[uwsgi]
+  emperor = /etc/uwsgi/vassal' > /etc/uwsgi/emperor.ini
+
+  echo '[uwsgi]
+  chdir = /srv/www/lempsample
+  logto = /var/log/uwsgi/lempsample.log
+  virtualenv = /srv/www/lempsample/venv
+  socket = /tmp/lempsample.sock
+  uid = www-data
+  gid = www-data
+  master = true
+  wsgi-file = wsgi.py
+  callable = app
+  vacuum = true' > /etc/uwsgi/vassal/lempsample.ini
+  tee -a /srv/www/lempsample/wsgi.py > /dev/null <<EOF
+  from flask import Flask
+
+  app = Flask(__name__)
+  from flask import render_template
+
+  @app.route('/')
+  def index():
+      return "<html><head><link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'></head><body class='container' style=\"font-family: 'Noto Sans', sans-serif;\"><blockquote><h1>You've got a LEMP stack!!</h1><p>The Python app using uWSGI works! <a href='checkinfo.php'>Try out the PHP page.</a></p><footer><a href='https://github.com/jbradach'>@jbradach</a></footer></blockquote></body></html>"
+  EOF
+
+  # virtualenv
+  echo -e '\n[virtualenv]'
+  pip install virtualenv
+  cd /srv/www/lempsample
+  virtualenv venv
+  source venv/bin/activate
+  pip install flask
+  deactivate  
 fi
 
-echo '[uwsgi]
-emperor = /etc/uwsgi/vassal' > /etc/uwsgi/emperor.ini
-
-echo '[uwsgi]
-chdir = /srv/www/lempsample
-logto = /var/log/uwsgi/lempsample.log
-virtualenv = /srv/www/lempsample/venv
-socket = /tmp/lempsample.sock
-uid = www-data
-gid = www-data
-master = true
-wsgi-file = wsgi.py
-callable = app
-vacuum = true' > /etc/uwsgi/vassal/lempsample.ini
-tee -a /srv/www/lempsample/wsgi.py > /dev/null <<EOF
-from flask import Flask
-
-app = Flask(__name__)
-from flask import render_template
-
-@app.route('/')
-def index():
-    return "<html><head><link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'></head><body class='container' style=\"font-family: 'Noto Sans', sans-serif;\"><blockquote><h1>You've got a LEMP stack!!</h1><p>The Python app using uWSGI works! <a href='checkinfo.php'>Try out the PHP page.</a></p><footer><a href='https://github.com/jbradach'>@jbradach</a></footer></blockquote></body></html>"
-EOF
-
-# virtualenv
-echo -e '\n[virtualenv]'
-pip install virtualenv
-cd /srv/www/lempsample
-virtualenv venv
-source venv/bin/activate
-pip install flask
-deactivate
 
 # Permissions
 echo -e '\n[Adjusting Permissions]'
