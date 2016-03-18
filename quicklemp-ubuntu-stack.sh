@@ -207,7 +207,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   @app.route('/')
   def index():
       return "<html><head><link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'></head><body class='container' style=\"font-family: 'Noto Sans', sans-serif;\"><blockquote><h1>You've got a LEMP stack!!</h1><p>The Python app using uWSGI works! <a href='checkinfo.php'>Try out the PHP page.</a></p><footer><a href='https://github.com/jbradach'>@jbradach</a></footer></blockquote></body></html>"
-  EOF
+	EOF
 
   # virtualenv
   echo -e '\n[virtualenv]'
