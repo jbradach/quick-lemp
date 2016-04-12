@@ -56,7 +56,8 @@ fi
 echo -e '\n[Package Updates]'
 apt-get install software-properties-common
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-add-apt-repository 'deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $(lsb_release -sc) main'
+# double quotes are needed to resolve that command into a value
+add-apt-repository "deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $(lsb_release -sc) main"
 add-apt-repository ppa:nginx/stable
 add-apt-repository ppa:ondrej/php5-5.6
 apt-get update
