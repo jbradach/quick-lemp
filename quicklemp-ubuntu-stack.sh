@@ -59,7 +59,7 @@ apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb9
 # double quotes are needed to resolve that command into a value
 add-apt-repository "deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu $(lsb_release -sc) main"
 add-apt-repository ppa:nginx/stable
-add-apt-repository ppa:ondrej/php5-5.6
+add-apt-repository ppa:ondrej/php
 apt-get update
 apt-get -y upgrade
 
@@ -119,7 +119,7 @@ $conf2
 
   location ~ \\.php\$ {
     try_files \$uri =404;
-    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_pass unix:/var/run/php5.6-fpm.sock;
     fastcgi_param SCRIPT_FILENAME \$request_filename;
     fastcgi_index index.php;
     include fastcgi_params;
@@ -140,7 +140,7 @@ ln -s /etc/nginx/sites-available/lempsample /etc/nginx/sites-enabled/lempsample
 
 # PHP
 echo -e '\n[PHP-FPM]'
-apt-get -y install php5-common php5-mysqlnd php5-curl php5-gd php5-cli php5-fpm php-pear php5-dev php5-imap php5-mcrypt
+apt-get -y install php5.6-common php5.6-mysql php5.6-curl php5.6-gd php5.6-cli php5.6-fpm php-pear php5.6-dev php5.6-imap php5.6-mcrypt
 echo '<?php phpinfo(); ?>' > /srv/www/lempsample/public/checkinfo.php
 
 
