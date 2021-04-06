@@ -1,7 +1,12 @@
-quick-lemp [![Join the chat at https://gitter.im/jbradach/quick-lemp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jbradach/quick-lemp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+quick-lemp
+
+[![Donate with Bitcoin](https://en.cryptobadges.io/badge/micro/15mjnqPTSphZZaBiRmrfP8jiSDzo5bYyAa)](https://en.cryptobadges.io/donate/15mjnqPTSphZZaBiRmrfP8jiSDzo5bYyAa)
+[![Donate with Ethereum](https://en.cryptobadges.io/badge/micro/0xb39D022eDF05C31e1981f4F4D8137dDa9C57CFaE)](https://en.cryptobadges.io/donate/0xb39D022eDF05C31e1981f4F4D8137dDa9C57CFaE)
 ==========
 
-Scripts to quickly install a [LEMP Stack](https://lemp.io) and perform basic configuration of new Ubuntu 12.04, 13.04, 14.04, and 15.04 servers.
+__Update 20210406:__  This script has been neglected for way too long. If there's interest, I can update it for Ubuntu 20.04 and later.
+
+Scripts to quickly install a LEMP Stack and perform basic configuration of new Ubuntu 12.04, 13.04, 14.04, and 15.04 servers.
 
 Components include a recent stable version of Nginx (1.8.0) using configurations from the HTML 5 Boilerplate team, uWSGI, and MariaDB 10.0 (drop-in replacement for MySQL), PHP5, and Python.
 
